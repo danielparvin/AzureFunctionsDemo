@@ -1,6 +1,6 @@
-using Calculations;
-
 using Data;
+
+using Functions.Services;
 
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;

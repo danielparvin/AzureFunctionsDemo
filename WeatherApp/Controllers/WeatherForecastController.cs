@@ -1,8 +1,8 @@
-using Calculations;
-
 using Data;
 
 using Microsoft.AspNetCore.Mvc;
+
+using WeatherApp.Services;
 
 namespace WeatherApp.Controllers;
 

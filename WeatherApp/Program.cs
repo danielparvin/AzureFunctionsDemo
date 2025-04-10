@@ -1,6 +1,6 @@
-using Calculations;
-
 using Data;
+
+using WeatherApp.Services;
 
 namespace WeatherApp {
     public static class Program {
