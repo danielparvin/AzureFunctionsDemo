@@ -15,19 +15,13 @@ public class WeatherForecastController : ControllerBase {
         forecastService = ForecastService;
     }
 
-    [HttpPost("GenerateCustomForecast")]
-    public async Task<ActionResult> GenerateCustomForecast(ForecastCalculationParameters Parameters) {
-        var forecast = await forecastService.GenerateCustomForecast(Parameters);
-        return CreatedAtAction(nameof(GetNewestCustomForecast), new { id = forecast.ID }, forecast);
+    [HttpPost(nameof(QueueGenerateCustomForecast))]
+    public async Task<ActionResult> QueueGenerateCustomForecast(ForecastCalculationParameters Parameters) {
+        await forecastService.QueueGenerateCustomForecast(Parameters);
+        return Ok();
     }
 
-    [HttpPost("GenerateStandardForecast")]
-    public async Task<ActionResult> GenerateStandardForecast() {
-        var forecast = await forecastService.GenerateStandardForecast();
-        return CreatedAtAction(nameof(GetNewestStandardForecast), new { id = forecast.ID }, forecast);
-    }
-
-    [HttpGet("GetNewestCustomForecast")]
+    [HttpGet(nameof(GetNewestCustomForecast))]
     public async Task<ActionResult<FiveDayForecast>> GetNewestCustomForecast() {
         var forecast = await forecastService.GetNewestCustomForecast();
         if (forecast == null) {
@@ -37,7 +31,7 @@ public class WeatherForecastController : ControllerBase {
         }
     }
 
-    [HttpGet("GetNewestStandardForecast")]
+    [HttpGet(nameof(GetNewestStandardForecast))]
     public async Task<ActionResult<FiveDayForecast>> GetNewestStandardForecast() {
         var forecast = await forecastService.GetNewestStandardForecast();
         if (forecast == null) {
@@ -45,11 +39,5 @@ public class WeatherForecastController : ControllerBase {
         } else {
             return forecast;
         }
-    }
-
-    [HttpPost("SubmitInstrumentMetric")]
-    public async Task<ActionResult> SubmitInstrumentMetric(InstrumentMetric Metric) {
-        var savedMetric = await forecastService.SaveInstrumentMetric(Metric);
-        return CreatedAtAction(nameof(SubmitInstrumentMetric), new { id = savedMetric.ID }, savedMetric);
     }
 }

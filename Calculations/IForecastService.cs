@@ -6,6 +6,7 @@ namespace Calculations {
         Task<FiveDayForecast> GenerateStandardForecast();
         Task<FiveDayForecast?> GetNewestCustomForecast();
         Task<FiveDayForecast?> GetNewestStandardForecast();
+        Task QueueGenerateCustomForecast(ForecastCalculationParameters Parameters);
         Task<InstrumentMetric> SaveInstrumentMetric(InstrumentMetric Metric);
     }
 }

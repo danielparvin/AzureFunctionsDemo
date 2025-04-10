@@ -1,13 +1,23 @@
-﻿using Data;
+﻿using System.Text.Json;
+
+using Azure.Storage.Queues;
+
+using Data;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Calculations {
     public class ForecastService : IForecastService {
         private readonly WeatherDbContext dbContext;
+        private readonly QueueClient queueClient;
 
-        public ForecastService(WeatherDbContext dbContext) {
+        public ForecastService(WeatherDbContext dbContext, IConfiguration Configuration) {
             this.dbContext = dbContext;
+            queueClient = new QueueClient(
+                Configuration.GetSection("AzureWebJobsStorage").Value,
+                Configuration.GetSection("ForecastQueueName").Value,
+                new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 });
         }
 
         public async Task<FiveDayForecast> GenerateCustomForecast(ForecastCalculationParameters Parameters) {
@@ -56,6 +66,12 @@ namespace Calculations {
                 .Include(f => f.ForecastCalculationParameters)
                 .Include(f => f.WeatherForecasts)
                 .FirstOrDefault();
+        }
+
+        public async Task QueueGenerateCustomForecast(ForecastCalculationParameters Parameters) {
+            string serializedParameters = JsonSerializer.Serialize(Parameters);
+            await queueClient.CreateIfNotExistsAsync();
+            await queueClient.SendMessageAsync(serializedParameters);
         }
 
         public async Task<InstrumentMetric> SaveInstrumentMetric(InstrumentMetric Metric) {
