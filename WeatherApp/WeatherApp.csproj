@@ -19,4 +19,18 @@
     <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
+	<PropertyGroup>
+		<SpaRoot>ui\</SpaRoot>
+	</PropertyGroup>
+
+	<Target Name="PublishReact" AfterTargets="Build">
+		<Exec Command="npm install" WorkingDirectory="../ui" />
+		<Exec Command="npm run build" WorkingDirectory="../ui" />
+	</Target>
+
+	<ItemGroup>
+		<DistFiles Include="ui\build\**" />
+		<Content Include="@(DistFiles->'%(FullPath)')" CopyToPublishDirectory="PreserveNewest" />
+	</ItemGroup>
+
 </Project>
