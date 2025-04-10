@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "ForecastQueueName": "custom-forecast-requests",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=/C://Users/dparvin/Desktop/weatherdb.db"
+  }
+}
