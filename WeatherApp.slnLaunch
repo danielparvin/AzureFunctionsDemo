@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Web App and Functions",
+    "Projects": [
+      {
+        "Path": "WeatherApp\\WeatherApp.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Path": "Functions\\Functions.csproj",
+        "Action": "Start",
+        "DebugTarget": "Functions"
+      }
+    ]
+  }
+]
