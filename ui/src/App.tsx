@@ -35,6 +35,10 @@ function App() {
 
     useEffect(() => {
         populateWeatherData();
+        const intervalId = setInterval(() => {
+            populateWeatherData();
+        }, 30000);
+        return () => clearInterval(intervalId);
     }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +60,7 @@ function App() {
 
         if (response.ok) {
             alert('Custom forecast parameters submitted successfully!');
+            populateWeatherData();
         } else {
             alert('Failed to submit custom forecast parameters.');
         }
